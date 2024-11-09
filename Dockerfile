@@ -1,20 +1,18 @@
-# Use an official Python runtime as a parent image
-FROM python:3.8-slim
+# Step 1: Use a base image
+FROM node:14
 
-# Set the working directory in the container
+# Step 2: Set the working directory inside the container
 WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . /app
+# Step 3: Copy package.json and install dependencies
+COPY package*.json ./
+RUN npm install
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Step 4: Copy the application code
+COPY . .
 
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
+# Step 5: Expose the application port (adjust based on app requirements)
+EXPOSE 3000
 
-# Define environment variable
-ENV NAME WisecowApp
-
-# Run the app when the container launches
-CMD ["python", "app.py"]
+# Step 6: Command to run the application
+CMD ["npm", "start"]
